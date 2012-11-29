@@ -12,6 +12,7 @@
             "role": "Developer"
         }
     ],
+    "bin": ["cli/export.php"],
     "require": {
         "php": ">=5.3.0"
     }
