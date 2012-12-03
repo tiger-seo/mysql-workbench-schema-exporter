@@ -62,12 +62,19 @@ class Column extends Base
         // iterate on column configuration
         foreach ($this->node->xpath("value") as $key => $node) {
             $attributes         = $node->attributes();
-            $this->parameters->set((string) $attributes['key'], (string) $node[0]);
+            if ((string) $attributes['type'] === 'list') {
+                $list = array();
+                foreach ($node->value as $value) {
+                    $list[] = (string) $value;
+                }
+                $this->parameters->set((string) $attributes['key'], $list);
+            } else {
+                $this->parameters->set((string) $attributes['key'], (string) $node[0]);
+            }
         }
         // iterate on links to other wb objects
         foreach ($this->node->xpath("link") as $key => $node) {
             $attributes         = $node->attributes();
-            $key                = (string) $attributes['key'];
             $this->links->set((string) $attributes['key'], (string) $node[0]);
         }
     }

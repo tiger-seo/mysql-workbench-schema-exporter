@@ -79,7 +79,7 @@ class Table extends Base
         $writer
             ->write('%s:', $this->getNamespace())
             ->indent()
-                ->write('type: Entity')
+                ->write('type: entity')
                 ->writeIf($this->getDocument()->getConfig()->get(Formatter::CFG_AUTOMATIC_REPOSITORY), 'repositoryClass: %s', (($namespace = $this->getDocument()->getConfig()->get(Formatter::CFG_REPOSITORY_NAMESPACE)) ? $namespace.'\\' : '').$this->getModelName().'Repository')
                 ->write('table: %s', ($this->getDocument()->getConfig()->get(Formatter::CFG_EXTEND_TABLENAME_WITH_SCHEMA) ? $this->getSchema()->getName().'.' : '').$this->getRawTableName())
                 ->writeCallback(function(WriterInterface $writer, Table $_this = null) {

@@ -33,18 +33,21 @@ class Column extends Base
 {
     public function write(WriterInterface $writer)
     {
+        $nullable = $this->parameters->get('isNotNull') == '0';
         $writer
-            ->write('%s:', $this->getColumnName())
+            ->write('%s:', $this->getCamesCaseColumnName())
             ->indent()
                 ->write('type: %s', $this->getDocument()->getFormatter()->getDatatypeConverter()->getType($this))
+                ->writeIf($this->isString() && $this->getParameters()->get('length') > 0, 'length: %s', $this->getParameters()->get('length'))
+                ->writeIf($this->isInteger(), 'unsigned: %s', $this->isUnsigned() ? 'true' : 'false')
                 ->writeIf($this->isPrimary(), 'primary: true')
-                ->writeIf($this->parameters->get('isNotNull') == 1, 'notnull: true')
+                ->write('nullable: %s', $nullable ? 'true' : 'false')
                 ->writeCallback(function(WriterInterface $writer, Column $_this = null) {
                     if ($_this->getParameters()->get('autoIncrement') == 1) {
                         $writer
                             ->write('generator:')
                             ->indent()
-                                ->write('strategy: AUTO')
+                                ->write('strategy: IDENTITY')
                             ->outdent()
                         ;
                     }
@@ -59,5 +62,25 @@ class Column extends Base
         ;
 
         return $this;
+    }
+
+    private function isString()
+    {
+        return $this->getDocument()->getFormatter()->getDatatypeConverter()->getType($this) == 'string';
+    }
+
+    private function isInteger()
+    {
+        return $this->getDocument()->getFormatter()->getDatatypeConverter()->getType($this) == 'integer';
+    }
+
+    private function isUnsigned()
+    {
+        return in_array('UNSIGNED', $this->parameters->get('flags'));
+    }
+
+    private function getCamesCaseColumnName()
+    {
+        return lcfirst($this->columnNameBeautifier($this->getColumnName()));
     }
 }
