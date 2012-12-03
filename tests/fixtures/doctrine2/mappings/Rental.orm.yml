@@ -1,0 +1,52 @@
+Test\TestBundle\Entity\Rental:
+    type: entity
+    table: rental
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        rentalDate:
+            type: datetime
+            nullable: false
+            column: rental_date
+        returnDate:
+            type: datetime
+            nullable: true
+            column: return_date
+        lastUpdate:
+            type: datetime
+            nullable: false
+            column: last_update
+    manyToOne:
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        inventory:
+            targetEntity: Inventory
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                inventory_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        customer:
+            targetEntity: Customer
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                customer_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

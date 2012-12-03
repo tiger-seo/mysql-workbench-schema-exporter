@@ -1,0 +1,58 @@
+Test\TestBundle\Entity\Customer:
+    type: entity
+    table: customer
+    fields:
+        id:
+            id: true
+            type: smallint
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        firstName:
+            type: string
+            length: 45
+            fixed: false
+            nullable: false
+            column: first_name
+        lastName:
+            type: string
+            length: 45
+            fixed: false
+            nullable: false
+            column: last_name
+        email:
+            type: string
+            length: 50
+            fixed: false
+            nullable: true
+        active:
+            type: boolean
+            nullable: false
+        createDate:
+            type: datetime
+            nullable: false
+            column: create_date
+        lastUpdate:
+            type: datetime
+            nullable: true
+            column: last_update
+    manyToOne:
+        address:
+            targetEntity: Address
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                address_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        store:
+            targetEntity: Store
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                store_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

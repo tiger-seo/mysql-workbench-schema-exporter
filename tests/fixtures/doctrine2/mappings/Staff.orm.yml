@@ -1,0 +1,67 @@
+Test\TestBundle\Entity\Staff:
+    type: entity
+    table: staff
+    fields:
+        id:
+            id: true
+            type: boolean
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        firstName:
+            type: string
+            length: 45
+            fixed: false
+            nullable: false
+            column: first_name
+        lastName:
+            type: string
+            length: 45
+            fixed: false
+            nullable: false
+            column: last_name
+        picture:
+            type: blob
+            nullable: true
+        email:
+            type: string
+            length: 50
+            fixed: false
+            nullable: true
+        active:
+            type: boolean
+            nullable: false
+        username:
+            type: string
+            length: 16
+            fixed: false
+            nullable: false
+        password:
+            type: string
+            length: 40
+            fixed: false
+            nullable: true
+        lastUpdate:
+            type: datetime
+            nullable: false
+            column: last_update
+    manyToOne:
+        store:
+            targetEntity: Store
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                store_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        address:
+            targetEntity: Address
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                address_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

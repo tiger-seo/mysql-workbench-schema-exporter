@@ -1,0 +1,45 @@
+Test\TestBundle\Entity\Actor:
+    type: entity
+    table: actor
+    id:
+        id:
+            type: smallint
+            nullable: false
+            generator:
+                strategy: IDENTITY
+            unsigned: true
+    fields:
+        firstName:
+            type: string
+            length: 45
+            fixed: false
+            nullable: false
+            column: first_name
+        lastName:
+            type: string
+            length: 45
+            fixed: false
+            nullable: false
+            column: last_name
+        lastUpdate:
+            type: datetime
+            nullable: false
+            column: last_update
+    manyToMany:
+        film:
+            targetEntity: Film
+            cascade: {  }
+            mappedBy: null
+            inversedBy: actor
+            joinTable:
+                name: film_actor
+                joinColumns:
+                    -
+                        name: actor_id
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: film_id
+                        referencedColumnName: id
+            orderBy: null
+    lifecycleCallbacks: {  }

@@ -1,0 +1,28 @@
+Test\TestBundle\Entity\Category:
+    type: entity
+    table: category
+    fields:
+        id:
+            id: true
+            type: boolean
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        name:
+            type: string
+            length: 25
+            fixed: false
+            nullable: false
+        lastUpdate:
+            type: datetime
+            nullable: false
+            column: last_update
+    manyToMany:
+        film:
+            targetEntity: Film
+            cascade: {  }
+            mappedBy: category
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }

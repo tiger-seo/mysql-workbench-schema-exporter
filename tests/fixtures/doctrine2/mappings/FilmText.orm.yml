@@ -1,0 +1,19 @@
+Test\TestBundle\Entity\FilmText:
+    type: entity
+    table: film_text
+    fields:
+        id:
+            id: true
+            type: smallint
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        title:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+        description:
+            type: text
+            nullable: true
+    lifecycleCallbacks: {  }

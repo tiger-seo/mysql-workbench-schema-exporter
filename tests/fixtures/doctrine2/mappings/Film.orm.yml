@@ -1,0 +1,89 @@
+Test\TestBundle\Entity\Film:
+    type: entity
+    table: film
+    fields:
+        id:
+            id: true
+            type: smallint
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        title:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+        description:
+            type: text
+            nullable: true
+        releaseYear:
+            type: date
+            nullable: true
+            column: release_year
+        rentalDuration:
+            type: boolean
+            nullable: false
+            column: rental_duration
+        rentalRate:
+            type: decimal
+            nullable: false
+            column: rental_rate
+        length:
+            type: smallint
+            nullable: true
+        replacementCost:
+            type: decimal
+            nullable: false
+            column: replacement_cost
+        specialFeatures:
+            type: simplearray
+            nullable: true
+            column: special_features
+        lastUpdate:
+            type: datetime
+            nullable: false
+            column: last_update
+    manyToMany:
+        actor:
+            targetEntity: Actor
+            cascade: {  }
+            mappedBy: film
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+        category:
+            targetEntity: Category
+            cascade: {  }
+            mappedBy: null
+            inversedBy: film
+            joinTable:
+                name: film_category
+                joinColumns:
+                    -
+                        name: film_id
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: category_id
+                        referencedColumnName: id
+            orderBy: null
+    manyToOne:
+        language:
+            targetEntity: Language
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                language_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        originalLanguage:
+            targetEntity: Language
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                original_language_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

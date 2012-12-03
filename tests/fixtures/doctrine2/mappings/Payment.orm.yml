@@ -1,0 +1,50 @@
+Test\TestBundle\Entity\Payment:
+    type: entity
+    table: payment
+    fields:
+        id:
+            id: true
+            type: smallint
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        amount:
+            type: decimal
+            nullable: false
+        paymentDate:
+            type: datetime
+            nullable: false
+            column: payment_date
+        lastUpdate:
+            type: datetime
+            nullable: true
+            column: last_update
+    manyToOne:
+        rental:
+            targetEntity: Rental
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                rental_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        customer:
+            targetEntity: Customer
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                customer_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

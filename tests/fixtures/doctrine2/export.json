@@ -1,0 +1,20 @@
+{
+  "export": "doctrine2-yaml",
+  "zip": false,
+  "dir": "db/mapping",
+  "params": {
+    "indentation": 4,
+    "useTabs": false,
+    "filename": "%entity%.orm.%extension%",
+    "skipPluralNameChecking": false,
+    "backupExistingFile": true,
+    "useLoggedStorage": false,
+    "enhanceManyToManyDetection": true,
+    "bundleNamespace": "Nmotion\\NmotionBundle",
+    "entityNamespace": "",
+    "repositoryNamespace": "",
+    "extendTableNameWithSchemaName": false,
+    "useAutomaticRepository": false,
+    "trimTablePrefix": "nmtn_"
+  }
+}
