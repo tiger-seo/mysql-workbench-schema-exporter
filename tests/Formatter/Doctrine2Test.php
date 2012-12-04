@@ -17,11 +17,35 @@ class Doctrine2Test extends \PHPUnit_Framework_TestCase
 	 */
 	protected $formatter;
 
+	protected $fixturesPath;
+	protected $mappingsPath;
+	protected $tempPath;
+
+	public static function setUpBeforeClass()
+	{
+		parent::setUpBeforeClass();
+	}
+
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp()
+	{
+		$this->fixturesPath = realpath(__DIR__ . '/../fixtures/doctrine2') . DIRECTORY_SEPARATOR;
+		$this->mappingsPath = $this->fixturesPath . 'mappings' . DIRECTORY_SEPARATOR;
+		$this->tempPath = realpath(__DIR__ . '/../temp') . DIRECTORY_SEPARATOR;
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+	}
+
+	public function mappingsProvider()
 	{
 		// formatter setup
 		$setup = array(
@@ -39,41 +63,37 @@ class Doctrine2Test extends \PHPUnit_Framework_TestCase
 		$this->mwb = new \MwbExporter\Bootstrap();
 		$this->formatter = $this->mwb->getFormatter('doctrine2-yaml');
 		$this->formatter->setup($setup);
+
+		$this->setUp();
+
+		$filename = $this->fixturesPath . 'sakila.mwb';
+		$document = $this->mwb->export($this->formatter, $filename, $this->tempPath, 'file');
+
+		return array(
+			array('Actor'),
+			array('Address'),
+			array('Category'),
+			array('City'),
+			array('Country'),
+			array('Customer'),
+			array('Film'),
+			array('FilmText'),
+			array('Inventory'),
+			array('Language'),
+			array('Payment'),
+			array('Rental'),
+			array('Staff'),
+			array('Store'),
+		);
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
+	 * @param $entityName@
+	 * @dataProvider mappingsProvider
 	 */
-	protected function tearDown()
+	public function testGeneratedMapping($entityName)
 	{
-	}
-
-	public function testDefault()
-	{
-		$mappings = array(
-			'Actor',
-			'Address',
-			'Category',
-			'City',
-			'Country',
-			'Customer',
-			'Film',
-			'FilmText',
-			'Inventory',
-			'Language',
-			'Payment',
-			'Rental',
-			'Staff',
-			'Store',
-		);
-		$filename = realpath(__DIR__ . '/../fixtures/doctrine2/sakila.mwb');
-		$outDir = realpath(__DIR__ . '/../temp');
-
-		$document = $this->mwb->export($this->formatter, $filename, $outDir, 'file');
-
-		foreach($mappings as $entityName) {
-			$this->assertFileExists($outDir . '/' . $entityName . '.orm.yml');
-		}
+		$this->assertFileExists($this->tempPath . '/' . $entityName . '.orm.yml');
+		$this->assertFileEquals($this->tempPath . '/' . $entityName . '.orm.yml', $this->mappingsPath . $entityName . '.orm.yml');
 	}
 }

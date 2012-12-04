@@ -34,8 +34,9 @@ class Column extends Base
     public function write(WriterInterface $writer)
     {
         $nullable = $this->parameters->get('isNotNull') == '0';
+	    $columnName = $this->getCamesCaseColumnName();
         $writer
-            ->write('%s:', $this->getCamesCaseColumnName())
+            ->write('%s:', $columnName)
             ->indent()
                 ->write('type: %s', $this->getDocument()->getFormatter()->getDatatypeConverter()->getType($this))
                 ->writeIf($this->isString() && $this->getParameters()->get('length') > 0, 'length: %s', $this->getParameters()->get('length'))
@@ -58,6 +59,7 @@ class Column extends Base
                         $writer->write(strtolower($flag).': true');
                     }
                 })
+                ->writeIf($columnName !== $this->getColumnName(), 'column: %s', $this->getColumnName())
             ->outdent()
         ;
 

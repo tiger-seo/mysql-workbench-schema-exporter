@@ -4,6 +4,7 @@ Test\TestBundle\Entity\Actor:
     id:
         id:
             type: smallint
+            primary: true
             nullable: false
             generator:
                 strategy: IDENTITY

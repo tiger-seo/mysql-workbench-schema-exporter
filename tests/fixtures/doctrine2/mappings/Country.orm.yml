@@ -1,13 +1,15 @@
-Test\TestBundle\Entity\Country:
+\Test\TestBundle\Entity\Country:
     type: entity
     table: country
-    fields:
+    id:
         id:
-            id: true
             type: smallint
+            primary: true
             nullable: false
             generator:
                 strategy: IDENTITY
+            unsigned: true
+    fields:
         country:
             type: string
             length: 50
@@ -16,5 +18,8 @@ Test\TestBundle\Entity\Country:
         lastUpdate:
             type: datetime
             nullable: false
+            default: CURRENT_TIMESTAMP
             column: last_update
-    lifecycleCallbacks: {  }
+    options:
+        charset: utf8
+        type: InnoDB

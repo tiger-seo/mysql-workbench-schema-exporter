@@ -28,17 +28,11 @@
 // show errors
 error_reporting(E_ALL);
 
-function autoload()
-{
-    $libDir = __DIR__.'/../lib';
-    require_once($libDir.'/MwbExporter/SplClassLoader.php');
+set_include_path(realpath(__DIR__.'/../lib') . PATH_SEPARATOR . get_include_path());
+var_dump(get_include_path());
 
-    $classLoader = new SplClassLoader();
-    $classLoader->setIncludePath($libDir);
-    $classLoader->register();
-
-    return $classLoader;
-}
-
-// enable autoloading of classes
-autoload();
+spl_autoload_extensions('.php');
+spl_autoload_register(function ($className) {
+   require_once str_replace('_', DIRECTORY_SEPARATOR, str_replace('\\', '_', ltrim($className, '\\'))) . '.php';
+});
+spl_autoload_register();
