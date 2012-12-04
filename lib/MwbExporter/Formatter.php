@@ -56,6 +56,7 @@ abstract class Formatter implements FormatterInterface
             static::CFG_BACKUP_FILE            => true,
             static::CFG_USE_LOGGED_STORAGE     => false,
             static::CFG_ENHANCE_M2M_DETECTION  => true,
+            static::CFG_TRIM_TABLE_PREFIX      => false,
         ));
         $this->init();
     }

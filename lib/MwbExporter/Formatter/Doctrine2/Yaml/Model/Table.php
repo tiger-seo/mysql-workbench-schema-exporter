@@ -28,6 +28,7 @@ namespace MwbExporter\Formatter\Doctrine2\Yaml\Model;
 
 use MwbExporter\Model\Table as Base;
 use MwbExporter\Writer\WriterInterface;
+use MwbExporter\FormatterInterface;
 use MwbExporter\Formatter\Doctrine2\Yaml\Formatter;
 
 class Table extends Base
@@ -115,4 +116,21 @@ class Table extends Base
 
         return $this;
     }
+
+    public function getModelName()
+    {
+        $modelName = parent::getModelName();
+
+        $trimTablePrefix = $this->getDocument()->getConfig()->get(FormatterInterface::CFG_TRIM_TABLE_PREFIX, false);
+        if ($trimTablePrefix) {
+            $trimTablePrefix = rtrim($trimTablePrefix, '_');
+            if (strtolower(substr($modelName, 0, strlen($trimTablePrefix))) === strtolower($trimTablePrefix)) {
+                $modelName = ucfirst(substr($modelName, strlen($trimTablePrefix)));
+            }
+        }
+
+        return $modelName;
+    }
+
+
 }
