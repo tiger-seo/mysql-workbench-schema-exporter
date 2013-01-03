@@ -78,7 +78,7 @@ class Table extends Base
     public function writeTable(WriterInterface $writer)
     {
         $writer
-            ->write('%s:', $this->getNamespace())
+            ->write('%s:', $this->getNamespace(null, false))
             ->indent()
                 ->write('type: entity')
                 ->writeIf($this->getDocument()->getConfig()->get(Formatter::CFG_AUTOMATIC_REPOSITORY), 'repositoryClass: %s', (($namespace = $this->getDocument()->getConfig()->get(Formatter::CFG_REPOSITORY_NAMESPACE)) ? $namespace.'\\' : '').$this->getModelName().'Repository')
