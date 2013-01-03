@@ -34,11 +34,13 @@ class Column extends Base
     public function write(WriterInterface $writer)
     {
         $nullable = $this->parameters->get('isNotNull') == '0';
+        $columnName = $this->getCamelCaseColumnName();
         $writer
-            ->write('%s:', $this->getCamesCaseColumnName())
+            ->write('%s:', $columnName)
             ->indent()
                 ->write('type: %s', $this->getDocument()->getFormatter()->getDatatypeConverter()->getType($this))
                 ->writeIf($this->isString() && $this->getParameters()->get('length') > 0, 'length: %s', $this->getParameters()->get('length'))
+                ->writeIf($this->isString(), 'fixed: %s', $this->isFixedString() ? 'true' : 'false')
                 ->writeIf($this->isInteger(), 'unsigned: %s', $this->isUnsigned() ? 'true' : 'false')
                 ->writeIf($this->isPrimary(), 'primary: true')
                 ->write('nullable: %s', $nullable ? 'true' : 'false')
@@ -55,9 +57,12 @@ class Column extends Base
                 ->writeIf(($default = $this->getParameters()->get('defaultValue')) && 'NULL' !== $default, 'default: '.$default)
                 ->writeCallback(function(WriterInterface $writer, Column $_this = null) {
                     foreach ($_this->getNode()->xpath("value[@key='flags']/value") as $flag) {
-                        $writer->write(strtolower($flag).': true');
+                        if (strtolower($flag) !== 'unsigned') {
+                            $writer->write(strtolower($flag).': true');
+                        }
                     }
                 })
+                ->writeIf($columnName !== $this->getColumnName(), 'column: %s', $this->getColumnName())
             ->outdent()
         ;
 
@@ -79,8 +84,13 @@ class Column extends Base
         return in_array('UNSIGNED', $this->parameters->get('flags'));
     }
 
-    private function getCamesCaseColumnName()
+    private function getCamelCaseColumnName()
     {
         return lcfirst($this->columnNameBeautifier($this->getColumnName()));
+    }
+
+    private function isFixedString()
+    {
+        return ($this->getDocument()->getFormatter()->getDatatypeConverter()->getMappedType($this) == 'char');
     }
 }

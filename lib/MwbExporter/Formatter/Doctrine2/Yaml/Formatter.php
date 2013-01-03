@@ -99,7 +99,7 @@ class Formatter extends BaseFormatter
 
     public function getTitle()
     {
-        return 'Doctrine 2.0 YAML';
+        return 'Doctrine 2.3 YAML';
     }
 
     public function getFileExtension()
