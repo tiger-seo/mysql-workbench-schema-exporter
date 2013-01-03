@@ -94,6 +94,6 @@ class Doctrine2Test extends \PHPUnit_Framework_TestCase
 	public function testGeneratedMapping($entityName)
 	{
 		$this->assertFileExists($this->tempPath . '/' . $entityName . '.orm.yml');
-		$this->assertFileEquals($this->tempPath . '/' . $entityName . '.orm.yml', $this->mappingsPath . $entityName . '.orm.yml');
+		$this->assertFileEquals($this->mappingsPath . $entityName . '.orm.yml', $this->tempPath . '/' . $entityName . '.orm.yml');
 	}
 }
